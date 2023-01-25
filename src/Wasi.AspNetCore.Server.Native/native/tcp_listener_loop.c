@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <assert.h>
+#include <fcntl.h>
 #include <sys/socket.h>
 #include <mono-wasi/driver.h>
 #include "dotnet_method.h"
@@ -38,6 +39,16 @@ void accept_any_new_connection(int interop_gchandle) {
     // It's a bit odd, but WASI preopened listeners have file handles sequentially starting from 3. If the host preopened more than
     // one, you could sock_accept with fd=3, then fd=4, etc., until you run out of preopens.
     int preopen_fd = getenv("DEBUGGER_FD") ? 4 : 3;
+
+    int flags = fcntl(preopen_fd, F_GETFL);
+    if (flags < 0) {
+        printf("Fatal: getting file descriptor flags failed with errno %i.\n", errno);
+        exit(1);
+    }
+    if (fcntl(preopen_fd, F_SETFL, flags | O_NONBLOCK) < 0) {
+        printf("Fatal: setting O_NONBLOCK on file descriptor failed with errno %i.\n", errno);
+        exit(1);
+    }
 
     // libc's accept4 is mapped to WASI's sock_accept with some additional parameter/return mapping at https://github.com/WebAssembly/wasi-libc/blob/63e4489d01ad0262d995c6d9a5f1a1bab719c917/libc-bottom-half/sources/accept.c#L10
     struct sockaddr addr_out_ignored;
