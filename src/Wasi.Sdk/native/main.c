@@ -17,7 +17,7 @@ void mono_marshal_ilgen_init() {}
 WASI_AFTER_RUNTIME_LOADED_DECLARATIONS
 #endif
 
-int main() {
+int main(int argc, char* argv[]) {
     dotnet_wasi_registerbundledassemblies();
 
     mono_wasm_load_runtime("", 0);
@@ -27,8 +27,13 @@ int main() {
     WASI_AFTER_RUNTIME_LOADED_CALLS
 #endif
 
-    // TODO: Consider passing through the args
-    MonoArray* args = mono_wasm_string_array_new(0);
+    MonoArray* args = mono_wasm_string_array_new(argc - 1);
+    MonoDomain* domain = mono_object_get_domain((MonoObject*)args);
+    for (int i = 1; i < argc; i++)
+    {
+        // Exclude first arg as that is the application name as is not passed in dotnet applications.
+        mono_array_set(args, MonoString*, i - 1, mono_string_new(domain, argv[i]));
+    }
     void* entry_method_params[] = { args };
 
     MonoAssembly* assembly = mono_assembly_open(dotnet_wasi_getentrypointassemblyname(), NULL);
