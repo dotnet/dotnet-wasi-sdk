@@ -209,7 +209,7 @@
 
 		<!-- Invoke the WASI SDK clang binary to build the .wasm file -->
 		<PropertyGroup>
-			<WasiSdkClangArgs>@(WasiNativeFileReference, ' ')</WasiSdkClangArgs>
+			<WasiSdkClangArgs>&quot;@(WasiNativeFileReference, '" "')&quot;</WasiSdkClangArgs>
 			<WasiSdkClangArgs>$(WasiSdkClangArgs) --sysroot="$(WasiSdkRoot)\share\wasi-sysroot"</WasiSdkClangArgs>
 			<WasiSdkClangArgs>$(WasiSdkClangArgs) -I"$(WasiRuntimePackRoot)\native\include"</WasiSdkClangArgs>
 			<WasiSdkClangArgs>$(WasiSdkClangArgs) -Wl,--export=malloc,--export=free,--export=__heap_base,--export=__data_end</WasiSdkClangArgs>
