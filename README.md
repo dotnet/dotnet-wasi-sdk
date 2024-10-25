@@ -1,3 +1,7 @@
+# ARCHIVED #
+**This repository is now archived.
+Many of the experiments that started in this repository have made their way into .NET runtime during .NET 8. You can read more about these changes from the following blog post: https://devblogs.microsoft.com/dotnet/extending-web-assembly-to-the-cloud/**
+
 # Experimental WASI SDK for .NET Core
 
 `Wasi.Sdk` is an experimental package that can build .NET Core projects (including whole ASP.NET Core applications) into standalone WASI-compliant `.wasm` files. These can then be run in standard WASI environments or custom WASI-like hosts.
