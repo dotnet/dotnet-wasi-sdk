@@ -1,6 +1,6 @@
 # ARCHIVED #
 **This repository is now archived.
-Many of the experiments that started in this repository have made their way into .NET runtime during .NET 8. You can read more about these changes from the following blog post: https://devblogs.microsoft.com/dotnet/extending-web-assembly-to-the-cloud/**
+Many of the experiments that started in this repository have made their way into .NET runtime during .NET 8. You can read more about these changes in the following blog post: https://devblogs.microsoft.com/dotnet/extending-web-assembly-to-the-cloud/**
 
 # Experimental WASI SDK for .NET Core
 
